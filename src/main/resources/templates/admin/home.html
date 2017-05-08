@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <!-- Site Properties -->
+    <title>admin - Welcome</title>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/reset.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/site.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/container.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/grid.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/header.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/image.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/menu.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/divider.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/segment.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/form.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/input.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/button.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/list.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/message.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/icon.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/dropdown.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/sidebar.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/transition.min.css}"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script th:src="@{/semantic/components/form.min.js}"></script>
+    <script th:src="@{/semantic/components/transition.min.js}"></script>
+    <script th:src="@{/semantic/components/visibility.min.js}"></script>
+    <script th:src="@{/semantic/components/sidebar.min.js}"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <script th:src="@{/main.js}"></script>
+
+
+</head>
+<body>
+
+
+    <div th:replace="admin/fragments/header :: header('home')"> </div>
+
+
+    <div class="ui text container" >
+
+        Welcome back Admin!
+
+        Radio info will be here..
+
+    </div>
+
+    <div th:replace="admin/fragments/footer :: footer"> </div>
+
+
+</body>
+
+</html>
+
+
+
