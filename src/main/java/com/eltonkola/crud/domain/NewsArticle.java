@@ -1,5 +1,5 @@
-package com.eltonkola.radioz.domain;
-import com.eltonkola.radioz.utils.Utils;
+package com.eltonkola.crud.domain;
+import com.eltonkola.crud.utils.Utils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;

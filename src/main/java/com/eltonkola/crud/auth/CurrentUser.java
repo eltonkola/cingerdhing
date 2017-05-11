@@ -1,7 +1,7 @@
-package com.eltonkola.radioz.auth;
+package com.eltonkola.crud.auth;
 
-import com.eltonkola.radioz.domain.Role;
-import com.eltonkola.radioz.domain.User;
+import com.eltonkola.crud.domain.Role;
+import com.eltonkola.crud.domain.User;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 public class CurrentUser extends org.springframework.security.core.userdetails.User {

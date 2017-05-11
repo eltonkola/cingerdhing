@@ -1,4 +1,4 @@
-package com.eltonkola.radioz.domain;
+package com.eltonkola.crud.domain;
 
 public enum Role {
     DJ, ADMIN

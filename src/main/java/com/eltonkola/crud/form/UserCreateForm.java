@@ -1,6 +1,6 @@
-package com.eltonkola.radioz.form;
+package com.eltonkola.crud.form;
 
-import com.eltonkola.radioz.domain.Role;
+import com.eltonkola.crud.domain.Role;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;

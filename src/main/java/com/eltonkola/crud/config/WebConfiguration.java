@@ -1,4 +1,4 @@
-package com.eltonkola.radioz.config;
+package com.eltonkola.crud.config;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;

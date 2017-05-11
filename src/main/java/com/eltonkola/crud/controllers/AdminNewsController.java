@@ -1,8 +1,8 @@
-package com.eltonkola.radioz.controllers;
+package com.eltonkola.crud.controllers;
 
-import com.eltonkola.radioz.domain.NewsArticle;
-import com.eltonkola.radioz.liquidsoap.TelnetClient;
-import com.eltonkola.radioz.service.NewsServiceInterface;
+import com.eltonkola.crud.domain.NewsArticle;
+import com.eltonkola.crud.liquidsoap.TelnetClient;
+import com.eltonkola.crud.service.NewsServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

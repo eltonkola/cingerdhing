@@ -1,9 +1,9 @@
-package com.eltonkola.radioz.controllers;
+package com.eltonkola.crud.controllers;
 
-import com.eltonkola.radioz.RadiozApplication;
-import com.eltonkola.radioz.domain.NewsArticle;
-import com.eltonkola.radioz.liquidsoap.TelnetClient;
-import com.eltonkola.radioz.service.NewsServiceInterface;
+import com.eltonkola.crud.RadiozApplication;
+import com.eltonkola.crud.domain.NewsArticle;
+import com.eltonkola.crud.liquidsoap.TelnetClient;
+import com.eltonkola.crud.service.NewsServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

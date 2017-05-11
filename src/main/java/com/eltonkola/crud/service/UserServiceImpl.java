@@ -1,8 +1,8 @@
-package com.eltonkola.radioz.service;
+package com.eltonkola.crud.service;
 
-import com.eltonkola.radioz.domain.User;
-import com.eltonkola.radioz.form.UserCreateForm;
-import com.eltonkola.radioz.repository.UserRepository;
+import com.eltonkola.crud.domain.User;
+import com.eltonkola.crud.form.UserCreateForm;
+import com.eltonkola.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

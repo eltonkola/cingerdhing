@@ -1,4 +1,4 @@
-package com.eltonkola.radioz.service;
+package com.eltonkola.crud.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.eltonkola.radioz.domain.NewsArticle;
-import com.eltonkola.radioz.repository.NewsArticlesRepository;
+import com.eltonkola.crud.domain.NewsArticle;
+import com.eltonkola.crud.repository.NewsArticlesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

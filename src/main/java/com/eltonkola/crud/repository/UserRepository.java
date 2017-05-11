@@ -1,6 +1,6 @@
-package com.eltonkola.radioz.repository;
+package com.eltonkola.crud.repository;
 
-import com.eltonkola.radioz.domain.User;
+import com.eltonkola.crud.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

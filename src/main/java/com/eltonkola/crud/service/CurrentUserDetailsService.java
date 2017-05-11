@@ -1,7 +1,7 @@
-package com.eltonkola.radioz.service;
+package com.eltonkola.crud.service;
 
-import com.eltonkola.radioz.domain.User;
-import com.eltonkola.radioz.auth.CurrentUser;
+import com.eltonkola.crud.domain.User;
+import com.eltonkola.crud.auth.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

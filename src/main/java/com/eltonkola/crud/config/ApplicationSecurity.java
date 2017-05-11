@@ -1,4 +1,4 @@
-package com.eltonkola.radioz.config;
+package com.eltonkola.crud.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;

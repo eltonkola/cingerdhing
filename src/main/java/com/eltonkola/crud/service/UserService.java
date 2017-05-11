@@ -1,7 +1,7 @@
-package com.eltonkola.radioz.service;
+package com.eltonkola.crud.service;
 
-import com.eltonkola.radioz.domain.User;
-import com.eltonkola.radioz.form.UserCreateForm;
+import com.eltonkola.crud.domain.User;
+import com.eltonkola.crud.form.UserCreateForm;
 
 import java.util.Collection;
 import java.util.Optional;

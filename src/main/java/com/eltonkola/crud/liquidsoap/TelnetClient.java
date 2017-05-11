@@ -1,4 +1,4 @@
-package com.eltonkola.radioz.liquidsoap;
+package com.eltonkola.crud.liquidsoap;
 
 import java.io.*;
 import java.net.Socket;

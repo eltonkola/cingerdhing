@@ -1,8 +1,8 @@
-package com.eltonkola.radioz.config;
+package com.eltonkola.crud.config;
 
-import com.eltonkola.radioz.domain.Role;
-import com.eltonkola.radioz.domain.User;
-import com.eltonkola.radioz.repository.UserRepository;
+import com.eltonkola.crud.domain.Role;
+import com.eltonkola.crud.domain.User;
+import com.eltonkola.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

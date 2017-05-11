@@ -1,8 +1,8 @@
-package com.eltonkola.radioz.controllers;
+package com.eltonkola.crud.controllers;
 
-import com.eltonkola.radioz.domain.User;
-import com.eltonkola.radioz.form.UserCreateForm;
-import com.eltonkola.radioz.service.UserService;
+import com.eltonkola.crud.domain.User;
+import com.eltonkola.crud.form.UserCreateForm;
+import com.eltonkola.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

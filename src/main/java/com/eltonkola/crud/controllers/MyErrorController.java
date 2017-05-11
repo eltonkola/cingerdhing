@@ -1,4 +1,4 @@
-package com.eltonkola.radioz.controllers;
+package com.eltonkola.crud.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

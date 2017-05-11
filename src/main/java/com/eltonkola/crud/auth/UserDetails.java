@@ -1,4 +1,4 @@
-package com.eltonkola.radioz.auth;
+package com.eltonkola.crud.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 

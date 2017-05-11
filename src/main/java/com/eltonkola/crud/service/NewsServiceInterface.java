@@ -1,7 +1,7 @@
-package com.eltonkola.radioz.service;
+package com.eltonkola.crud.service;
 
 
-import com.eltonkola.radioz.domain.NewsArticle;
+import com.eltonkola.crud.domain.NewsArticle;
 
 import java.util.Collection;
 

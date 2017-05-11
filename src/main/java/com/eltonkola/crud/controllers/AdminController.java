@@ -1,6 +1,6 @@
-package com.eltonkola.radioz.controllers;
+package com.eltonkola.crud.controllers;
 
-import com.eltonkola.radioz.liquidsoap.TelnetClient;
+import com.eltonkola.crud.liquidsoap.TelnetClient;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
