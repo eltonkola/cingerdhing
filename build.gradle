@@ -1,15 +1,15 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 
-		classpath('se.transmode.gradle:gradle-docker:1.2')
-	}
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
 }
 
 group = 'eltonkola'
@@ -28,16 +28,16 @@ version = 'latest'
 sourceCompatibility = 1.8
 
 jar {
-	baseName = 'cingerdhing-docker'
-	version =  '0.1.0'
+    baseName = 'cingerdhing-docker'
+    version = '0.1.0'
 }
 
 tasks.withType(Jar) {
-	destinationDir = file("$rootDir/deployments")
+    destinationDir = file("$rootDir/deployments")
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
@@ -46,20 +46,22 @@ repositories {
 dependencies {
 
 
-	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-web')
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-	compile("com.h2database:h2")
+    compile("com.h2database:h2")
 
 
 
-	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
+    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
 
 
-	runtime('com.h2database:h2')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    runtime('com.h2database:h2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    testCompile 'junit:junit:4.12'
 }
 
 

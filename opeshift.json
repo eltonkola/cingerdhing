@@ -2,171 +2,184 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "cingerdhing-docker",
-    "creationTimestamp": null
+    "name": "cingerdhing-mysql",
+    "annotations": {
+      "iconClass": "icon-jboss",
+      "description": "Application template for MLB Parks application on EAP 6 & MongoDB built using STI"
+    }
   },
+  "labels": {
+    "application": "mlbparks",
+    "createdBy": "template-mlbparks-eap"
+  },
+  "parameters": [
+    {
+      "description": "The name for the application.",
+      "name": "APPLICATION_NAME",
+      "value": "mlbparks"
+    },
+    {
+      "description": "Custom hostname for service routes.  Leave blank for default hostname, e.g.: <application-name>.<project>.<default-domain-suffix>",
+      "name": "APPLICATION_HOSTNAME"
+    },
+    {
+      "description": "Git source URI for application",
+      "name": "GIT_URI",
+      "value": "https://github.com/jorgemoralespou/openshift3mlbparks.git"
+    },
+    {
+      "description": "Git branch/tag reference",
+      "name": "GIT_REF",
+      "value": "master"
+    },
+    {
+      "description": "Maven mirror url. If nexus is deployed locally, use nexus url (e.g. http://nexus.ci.apps.10.2.2.2.xip.io/content/groups/public/)",
+      "name": "MAVEN_MIRROR_URL",
+      "displayName": "Maven mirror url",
+      "required": false
+    },
+    {
+      "description": "Database name",
+      "name": "MONGODB_DATABASE",
+      "value": "root"
+    },
+    {
+      "description": "Disable data file preallocation.",
+      "name": "MONGODB_NOPREALLOC"
+    },
+    {
+      "description": "Set MongoDB to use a smaller default data file size.",
+      "name": "MONGODB_SMALLFILES"
+    },
+    {
+      "description": "Runs MongoDB in a quiet mode that attempts to limit the amount of output.",
+      "name": "MONGODB_QUIET"
+    },
+    {
+      "description": "Database user name",
+      "name": "MONGODB_USER",
+      "from": "user[a-zA-Z0-9]{3}",
+      "generate": "expression"
+    },
+    {
+      "description": "Database user password",
+      "name": "MONGODB_PASSWORD",
+      "from": "[a-zA-Z0-9]{8}",
+      "generate": "expression"
+    },
+    {
+      "description": "Database admin password",
+      "name": "MONGODB_ADMIN_PASSWORD",
+      "from": "[a-zA-Z0-9]{8}",
+      "generate": "expression"
+    },
+    {
+      "description": "Github trigger secret",
+      "name": "GITHUB_TRIGGER_SECRET",
+      "from": "[a-zA-Z0-9]{8}",
+      "generate": "expression"
+    },
+    {
+      "description": "Generic build trigger secret",
+      "name": "GENERIC_TRIGGER_SECRET",
+      "from": "[a-zA-Z0-9]{8}",
+      "generate": "expression"
+    }
+  ],
   "objects": [
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}"
+      },
+      "spec": {
+        "triggers": [
+          {
+            "type": "Generic",
+            "generic": {
+              "secret": "${GENERIC_TRIGGER_SECRET}"
+            }
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_TRIGGER_SECRET}"
+            }
+          },
+          {
+            "type": "ImageChange",
+            "imageChange": {}
+          }
+        ],
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${GIT_URI}",
+            "ref": "${GIT_REF}"
+          }
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "openshift",
+              "name": "jboss-eap64-openshift:1.3"
+            },
+            "env": [
+              {
+                "name": "MAVEN_MIRROR_URL",
+                "value": "${MAVEN_MIRROR_URL}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${APPLICATION_NAME}:latest"
+          }
+        }
+      }
+    },
     {
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cingerdhing-docker",
-        "creationTimestamp": null,
-        "labels": {
-          "app": "cingerdhing-docker"
-        },
-        "annotations": {
-          "openshift.io/generated-by": "OpenShiftNewApp",
-          "openshift.io/image.dockerRepositoryCheck": "2016-05-17T17:13:17Z"
-        }
+        "name": "${APPLICATION_NAME}"
       },
       "spec": {
-        "dockerImageRepository": "eltonkola/cingerdhing-docker"
-      },
-      "status": {
-        "dockerImageRepository": ""
+        "dockerImageRepository": "",
+        "tags": [
+          {
+            "name": "latest"
+          }
+        ]
       }
     },
     {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cingerdhing-docker",
-        "creationTimestamp": null,
-        "labels": {
-          "app": "cingerdhing-docker"
-        },
-        "annotations": {
-          "openshift.io/generated-by": "OpenShiftNewApp"
-        }
+        "name": "${APPLICATION_NAME}-mongodb"
       },
       "spec": {
         "strategy": {
-          "type": "Rolling",
-          "rollingParams": {
-            "updatePeriodSeconds": 1,
-            "intervalSeconds": 1,
-            "timeoutSeconds": 600,
-            "maxUnavailable": "25%",
-            "maxSurge": "25%"
-          },
-          "resources": {}
+          "type": "Recreate"
         },
         "triggers": [
-          {
-            "type": "ConfigChange"
-          },
           {
             "type": "ImageChange",
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "cingerdhing-docker"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "cingerdhing-docker:latest"
-              }
-            }
-          }
-        ],
-        "replicas": 1,
-        "selector": {
-          "app": "cingerdhing-docker",
-          "deploymentconfig": "cingerdhing-docker"
-        },
-        "template": {
-          "metadata": {
-            "creationTimestamp": null,
-            "labels": {
-              "app": "cingerdhing-docker",
-              "deploymentconfig": "cingerdhing-docker"
-            },
-            "annotations": {
-              "openshift.io/generated-by": "OpenShiftNewApp"
-            }
-          },
-          "spec": {
-            "containers": [
-              {
-                "name": "cingerdhing-docker",
-                "image": "eltonkola/cingerdhing-docker:latest",
-                "ports": [
-                  {
-                    "containerPort": 8080,
-                    "protocol": "TCP"
-                  }
-                ],
-                "env": [
-                  {
-                    "name": "SPRING_DATASOURCE_DRIVER_CLASS_NAME",
-                    "value": "${MYSQL_DRIVER}"
-                  },
-                  {
-                    "name": "SPRING_DATASOURCE_PASSWORD",
-                    "value": "${MYSQL_PASSWORD}"
-                  },
-                  {
-                    "name": "SPRING_DATASOURCE_URL",
-                    "value": "${MYSQL_DATASOURCE}"
-                  },
-                  {
-                    "name": "SPRING_DATASOURCE_USERNAME",
-                    "value": "${MYSQL_USER}"
-                  }
-                ],
-                "resources": {},
-                "readinessProbe": {
-                  "httpGet": {
-                    "path": "/health",
-                    "port": 9000,
-                    "scheme": "HTTP"
-                  },
-                  "initialDelaySeconds": 30,
-                  "timeoutSeconds": 2
-                },
-                "terminationMessagePath": "/dev/termination-log",
-                "imagePullPolicy": "IfNotPresent"
-              }
-            ],
-            "restartPolicy": "Always",
-            "terminationGracePeriodSeconds": 30,
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {}
-          }
-        }
-      },
-      "status": {}
-    },
-    {
-      "kind": "DeploymentConfig",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "mysql",
-        "creationTimestamp": null,
-        "labels": {
-          "template": "mysql-ephemeral-template"
-        },
-        "annotations": {
-          "openshift.io/generated-by": "OpenShiftNewApp"
-        }
-      },
-      "spec": {
-        "strategy": {
-          "type": "Recreate",
-          "resources": {}
-        },
-        "triggers": [
-          {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "containerNames": [
-                "mysql"
+                "${APPLICATION_NAME}-mongodb"
               ],
               "from": {
                 "kind": "ImageStreamTag",
                 "namespace": "openshift",
-                "name": "mysql:latest"
+                "name": "mongodb:2.6"
               }
             }
           },
@@ -176,54 +189,67 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "mysql"
+          "deploymentConfig": "${APPLICATION_NAME}-mongodb"
         },
         "template": {
           "metadata": {
-            "creationTimestamp": null,
+            "name": "${APPLICATION_NAME}-mongodb",
             "labels": {
-              "name": "mysql"
-            },
-            "annotations": {
-              "openshift.io/generated-by": "OpenShiftNewApp"
+              "deploymentConfig": "${APPLICATION_NAME}-mongodb"
             }
           },
           "spec": {
             "volumes": [
               {
-                "name": "mysql-data",
+                "name": "${APPLICATION_NAME}-mongodb-data",
                 "emptyDir": {}
               }
             ],
             "containers": [
               {
-                "name": "mysql",
-                "image": "registry.access.redhat.com/rhscl/mysql-56-rhel7:latest",
+                "name": "${APPLICATION_NAME}-mongodb",
+                "image": "mongodb",
                 "ports": [
                   {
-                    "containerPort": 3306,
+                    "containerPort": 27017,
                     "protocol": "TCP"
                   }
                 ],
                 "env": [
                   {
-                    "name": "MYSQL_USER",
-                    "value": "${MYSQL_USER}"
+                    "name": "MONGODB_USER",
+                    "value": "${MONGODB_USER}"
                   },
                   {
-                    "name": "MYSQL_PASSWORD",
-                    "value": "${MYSQL_PASSWORD}"
+                    "name": "MONGODB_PASSWORD",
+                    "value": "${MONGODB_PASSWORD}"
                   },
                   {
-                    "name": "MYSQL_DATABASE",
-                    "value": "${MYSQL_DATABASE_NAME}"
+                    "name": "MONGODB_DATABASE",
+                    "value": "${MONGODB_DATABASE}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "value": "${MONGODB_ADMIN_PASSWORD}"
+                  },
+                  {
+                    "name": "MONGODB_NOPREALLOC",
+                    "value": "${MONGODB_NOPREALLOC}"
+                  },
+                  {
+                    "name": "MONGODB_SMALLFILES",
+                    "value": "${MONGODB_SMALLFILES}"
+                  },
+                  {
+                    "name": "MONGODB_QUIET",
+                    "value": "${MONGODB_QUIET}"
                   }
                 ],
                 "resources": {},
                 "volumeMounts": [
                   {
-                    "name": "mysql-data",
-                    "mountPath": "/var/lib/mysql/data"
+                    "name": "${APPLICATION_NAME}-mongodb-data",
+                    "mountPath": "/var/lib/mongodb/data"
                   }
                 ],
                 "terminationMessagePath": "/dev/termination-log",
@@ -235,134 +261,196 @@
               }
             ],
             "restartPolicy": "Always",
-            "terminationGracePeriodSeconds": 30,
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {}
+            "dnsPolicy": "ClusterFirst"
           }
         }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}",
+        "labels": {
+          "deploymentConfig": "${APPLICATION_NAME}"
+        }
       },
-      "status": {}
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APPLICATION_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${APPLICATION_NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "deploymentConfig": "${APPLICATION_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "deploymentConfig": "${APPLICATION_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "${APPLICATION_NAME}",
+                "image": "${APPLICATION_NAME}",
+                "ports": [
+                  {
+                    "name": "${APPLICATION_NAME}-http",
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "name": "${APPLICATION_NAME}-ping",
+                    "containerPort": 8888,
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "exec": {
+                    "command": [
+                      "/bin/bash",
+                      "-c",
+                      "/opt/eap/bin/readinessProbe.sh"
+                    ]
+                  }
+                },
+                "env": [
+                  {
+                    "name": "OPENSHIFT_DNS_PING_SERVICE_NAME",
+                    "value": "${APPLICATION_NAME}-ping"
+                  },
+                  {
+                    "name": "OPENSHIFT_DNS_PING_SERVICE_PORT",
+                    "value": "8888"
+                  },
+                  {
+                    "name": "MONGODB_USER",
+                    "value": "${MONGODB_USER}"
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "value": "${MONGODB_PASSWORD}"
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${MONGODB_DATABASE}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "value": "${MONGODB_ADMIN_PASSWORD}"
+                  }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "Always",
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          }
+        }
+      }
     },
     {
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cingerdhing-docker",
-        "creationTimestamp": null,
-        "labels": {
-          "app": "cingerdhing-docker"
-        },
+        "name": "${APPLICATION_NAME}",
         "annotations": {
-          "openshift.io/host.generated": "true"
+          "description": "Route for application's http service"
         }
       },
       "spec": {
-        "host": "${APPLICATION_DOMAIN}",
+        "host": "${APPLICATION_HOSTNAME}",
         "to": {
           "kind": "Service",
-          "name": "cingerdhing-docker"
-        },
-        "port": {
-          "targetPort": 8080
+          "name": "${APPLICATION_NAME}"
         }
-      },
-      "status": {}
+      }
     },
     {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "cingerdhing-docker",
-        "creationTimestamp": null,
-        "labels": {
-          "app": "cingerdhing-docker"
-        },
+        "name": "mongodb"
+      },
+      "spec": {
+        "ports": [
+          {
+            "port": 27017,
+            "targetPort": 27017
+          }
+        ],
+        "selector": {
+          "deploymentConfig": "${APPLICATION_NAME}-mongodb"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}",
         "annotations": {
-          "openshift.io/generated-by": "OpenShiftNewApp"
+          "description": "The web server's http port"
         }
       },
       "spec": {
         "ports": [
           {
-            "name": "8080-tcp",
             "protocol": "TCP",
             "port": 8080,
             "targetPort": 8080
           }
         ],
         "selector": {
-          "app": "cingerdhing-docker",
-          "deploymentconfig": "cingerdhing-docker"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      },
-      "status": {
-        "loadBalancer": {}
+          "deploymentConfig": "${APPLICATION_NAME}"
+        }
       }
     },
     {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "mysql",
-        "creationTimestamp": null,
-        "labels": {
-          "template": "mysql-ephemeral-template"
-        },
+        "name": "${APPLICATION_NAME}-ping",
         "annotations": {
-          "openshift.io/generated-by": "OpenShiftNewApp"
+          "description": "Ping service for clustered applications"
         }
       },
       "spec": {
         "ports": [
           {
-            "name": "mysql",
-            "protocol": "TCP",
-            "port": 3306,
-            "targetPort": 3306
+            "port": 8888,
+            "targetPort": 8888
           }
         ],
         "selector": {
-          "name": "mysql"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      },
-      "status": {
-        "loadBalancer": {}
+          "deploymentConfig": "${APPLICATION_NAME}"
+        }
       }
-    }
-  ],
-  "parameters": [
-    {
-      "name": "APPLICATION_DOMAIN",
-      "description": "The exposed hostname that will route to the service, if left blank a value will be defaulted."
-    },
-    {
-      "name": "MYSQL_DATABASE_NAME",
-      "description": "Database name",
-      "value": "appuio"
-    },
-    {
-      "name": "MYSQL_USER",
-      "description": "Database user name",
-      "value": "appuio"
-    },
-    {
-      "name": "MYSQL_PASSWORD",
-      "description": "Database user password",
-      "value": "appuio"
-    },
-    {
-      "name": "MYSQL_DATASOURCE",
-      "description": "Database Datasource for Spring boot app",
-      "value": "jdbc:mysql://mysql/appuio?autoReconnect=true"
-    },
-    {
-      "name": "MYSQL_DRIVER",
-      "description": "Database driver class password",
-      "value": "com.mysql.jdbc.Driver"
     }
   ]
 }
