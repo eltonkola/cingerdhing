@@ -42,6 +42,14 @@ repositories {
 
 
 
+repositories {
+    jcenter()
+    mavenLocal()
+    maven {
+        name "oracleReleases"
+        url "http://download.oracle.com/maven"
+    }
+}
 
 dependencies {
 
@@ -55,6 +63,7 @@ dependencies {
 
 
 
+
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
 
 
@@ -62,6 +71,16 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     testCompile 'junit:junit:4.12'
+
+
+    compile 'org.springframework.boot:spring-boot-devtools'
+
+
+    //crawler4j dependencies
+    compile group: 'com.sleepycat', name: 'je', version: '5.0.84'
+
+    compile 'edu.uci.ics:crawler4j:4.3'
+
 }
 
 
