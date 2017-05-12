@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <!-- Site Properties -->
+    <title>admin - Burimet</title>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/reset.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/site.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/container.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/grid.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/header.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/image.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/menu.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/divider.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/segment.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/form.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/input.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/button.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/list.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/message.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/icon.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/dropdown.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/sidebar.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/transition.min.css}"/>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/table.min.css}"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script th:src="@{/semantic/components/form.min.js}"></script>
+    <script th:src="@{/semantic/components/transition.min.js}"></script>
+    <script th:src="@{/semantic/components/visibility.min.js}"></script>
+    <script th:src="@{/semantic/components/sidebar.min.js}"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <script th:src="@{/main.js}"></script>
+
+
+</head>
+<body>
+
+
+    <div th:replace="admin/fragments/header :: header('songs')"> </div>
+
+
+
+    <div class="bosh">
+    </div>
+
+
+
+    <div class="ui container">
+
+        <h2 class="ui dividing header">Burimet</h2>
+
+        <div class="example">
+            <div class="ui right floated ">
+                List e kengeve
+            </div>
+        </div>
+
+        <div class="ui hidden divider"></div>
+        <br/>
+
+        <div class="column">
+            <table class="ui right aligned table">
+                <thead>
+                <tr><th class="left aligned">Id</th>
+                    <th>Id</th>
+                    <th>Url</th>
+                    <th>Titulli</th>
+                </tr></thead>
+                <tbody>
+
+                    <tr th:if="${#lists.isEmpty(terekenget)}" class="btn-warning">
+                        <td colspan="4" align="center">Asnje kenge!!!</td>
+                    </tr>
+
+                    <tr th:each="song : ${terekenget}">
+                        <td class="left aligned" th:text="${song.id}"></td>
+                        <td class="left aligned" th:text="${burim.url_song}"></td>
+                        <td class="left aligned" th:utext="${burim.song_title}"></td>
+                        <td align="center">
+                            <a th:href="@{/admin/songs/delete/{id}(id=${song.id})}">Delete</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+
+    <div th:replace="admin/fragments/footer :: footer"> </div>
+
+
+</body>
+
+</html>
+
+
+

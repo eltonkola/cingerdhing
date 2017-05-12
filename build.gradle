@@ -53,33 +53,41 @@ repositories {
 
 dependencies {
 
-
-    compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    //pjesa web
     compile('org.springframework.boot:spring-boot-starter-web')
 
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.h2database:h2")
+    //siguri per panelin e admin
+    compile('org.springframework.boot:spring-boot-starter-security')
 
-
-
-
+    //template engine per html
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
 
+    //jpa per te dehnat
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
-    runtime('com.h2database:h2')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    //le te eprdorim nje db mbi file h2 per tani, me vone mudn te perdorim nje db tjeter si mysql
+    compile('com.h2database:h2')
+    //runtime('com.h2database:h2')
+    //compile("org.hsqldb:hsqldb")
 
-    testCompile 'junit:junit:4.12'
-
-
+    //hot deploy nderkohe qe punojme
     compile 'org.springframework.boot:spring-boot-devtools'
 
+    //sprig batch per veprima te gjata (si skanimi i nje faqeje)
+    //compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
+    compile("org.springframework.boot:spring-boot-starter-batch")
 
-    //crawler4j dependencies
+    //wekcosket we ui te flase me vemprimet e spider
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+
+    //crawler4j do e perdorim per spider, me dependencies
     compile group: 'com.sleepycat', name: 'je', version: '5.0.84'
-
     compile 'edu.uci.ics:crawler4j:4.3'
+
+    //testing
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'junit:junit:4.12'
 
 }
 
