@@ -1,12 +1,5 @@
 package com.eltonkola.crud.websocket;
-import com.eltonkola.crud.crawler.SongCrawler;
-import com.eltonkola.crud.crawler.MyCrawlerFactory;
-import edu.uci.ics.crawler4j.crawler.CrawlConfig;
-import edu.uci.ics.crawler4j.crawler.CrawlController;
-import edu.uci.ics.crawler4j.fetcher.PageFetcher;
-import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
-import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.eltonkola.crud.spider.Mp3Spider;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.TextMessage;
@@ -31,9 +24,6 @@ public class EchoWebSocketHandler extends TextWebSocketHandler {
 
 
     private List<WebSocketSession> mClients = new ArrayList<>();
-
-    @Autowired
-    MyCrawlerFactory mMyCrawlerFactory;
 
     public EchoWebSocketHandler() {
 
@@ -85,46 +75,14 @@ public class EchoWebSocketHandler extends TextWebSocketHandler {
 
 
     private void startSpider(){
-        try {
-            String crawlStorageFolder = "/tmp";
-            int numberOfCrawlers = 1;
 
-            CrawlConfig config = new CrawlConfig();
+        Mp3Spider mSpider = new Mp3Spider("http://www.shkarko.im", "http://shkarko.muzikpapare.com", this);
 
-            config.setCrawlStorageFolder(crawlStorageFolder);
-            config.setPolitenessDelay(10000);//10000
-            config.setMaxDepthOfCrawling(3);//-1 = unlimited
-            config.setMaxPagesToFetch(30); // -1 = unlimited
-
-            config.setUserAgentString("Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0");
-
-            config.setIncludeBinaryContentInCrawling(true);
-            config.setResumableCrawling(false);
-
-            PageFetcher pageFetcher = new PageFetcher(config);
-            RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-            RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
-            CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-
-            controller.addSeed("http://www.shkarko.im");
-
-            String[] crawlDomains = {"http://www.shkarko.im", "http://shkarko.muzikpapare.com"};
-
-            SongCrawler.configure(crawlDomains, "/home/elton/Desktop/ekola/cingerdhing/kenget");
-
-
-            MyCrawlerFactory factory = mMyCrawlerFactory;//metadata, repository
-            controller.startNonBlocking(factory, numberOfCrawlers);
-
-            //controller.start(SongCrawler.class, numberOfCrawlers);
-
-
-
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        mSpider.start();
     }
 
+
+    public static void main(String[] args){
+        new EchoWebSocketHandler().startSpider();
+    }
 }

@@ -81,9 +81,10 @@ dependencies {
     //wekcosket we ui te flase me vemprimet e spider
     compile("org.springframework.boot:spring-boot-starter-websocket")
 
-    //crawler4j do e perdorim per spider, me dependencies
-    compile group: 'com.sleepycat', name: 'je', version: '5.0.84'
-    compile 'edu.uci.ics:crawler4j:4.3'
+    //html parisng, for the spider
+    compile 'org.jsoup:jsoup:1.10.2'
+    //gson parsing
+    compile 'com.google.code.gson:gson:2.8.0'
 
     //testing
     testCompile('org.springframework.boot:spring-boot-starter-test')

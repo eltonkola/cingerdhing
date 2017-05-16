@@ -1,7 +1,9 @@
 package com.eltonkola.crud.config;
 
+import com.eltonkola.crud.domain.Burim;
 import com.eltonkola.crud.domain.Role;
 import com.eltonkola.crud.domain.User;
+import com.eltonkola.crud.repository.BurimRepository;
 import com.eltonkola.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,17 +16,32 @@ import java.util.Optional;
 public class InitialDataLoader {
 
 
-    private UserRepository userRepository;
+    private UserRepository mUserRepository;
+    private BurimRepository mBurimRepository;
 
     @Autowired
-    public InitialDataLoader(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public InitialDataLoader(UserRepository userRepository, BurimRepository burimRepository) {
+        this.mUserRepository = userRepository;
+        mBurimRepository = burimRepository;
+
         loadDefaultUsers();
+        loadDefaultBurimet();
+    }
+
+    private void loadDefaultBurimet(){
+        if(mBurimRepository.findByTitle("shkariko.im").size() == 0){
+            Burim burim = new Burim();
+            burim.setTitle("shkariko.im");
+            burim.setMp3_domain("http://shkarko.muzikpapare.com");
+            burim.setUrl_burimi("http://www.shkarko.im");
+
+            mBurimRepository.save(burim);
+        }
     }
 
     private void loadDefaultUsers() {
 
-        Optional<User> admin =  userRepository.findOneByEmail("admin@localhost.com");
+        Optional<User> admin =  mUserRepository.findOneByEmail("admin@localhost.com");
          if(!admin.isPresent()){
             createDefaultAdminAccount();
         }
@@ -44,7 +61,7 @@ public class InitialDataLoader {
         admin.setPasswordHash(hashedPassword);
         admin.setRole(Role.ADMIN);
 
-        userRepository.save(admin);
+        mUserRepository.save(admin);
     }
 
 
