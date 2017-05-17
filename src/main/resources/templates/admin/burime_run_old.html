@@ -119,36 +119,29 @@
 <body>
 
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websockets rely on Javascript being enabled. Please enable
-    Javascript and reload this page!</h2>
-</noscript>
+    Javascript and reload this page!</h2></noscript>
 
     <div th:replace="admin/fragments/header :: header('burime')"> </div>
+
 
     <div class="bosh">
     </div>
 
+
+
     <div class="ui container" th:object="${editBurim}">
 
-        <h2 class="ui dividing header">Spider per <th:block th:utext="${editBurim.title}"/> <a class="anchor" id="types"></a></h2>
-
-
         <input type="hidden" id="burimi_id" th:value="${editBurim.id}"/>
-        <p> Ketu mund te monitoroni spider per kete burim, ai mund te jete ne gjendje running, ose gati per tu nisur. Nje here qe spider ka nisur ai mund te zgjase shume kohe, nderkohe ju mund te
-            vini ne kete faqe me vone dhe spider nuk do te nderpritet. Nese i bheni stop spiderit, ai do te humbase tere te dhenat e deriatyshme, dhe nuk do te mund te beje me resume.
-            <br/> Ky spider do kerkoje ne faqen: <th:block th:utext="${editBurim.url_burimi}"/> dhe do kerkoje per cdo file mp3 ne ate faqe dhe nen domainin:
+
+
+        <h1>Run </h1>
+
+            <th:block th:utext="${editBurim.title}"/>
+            <th:block th:utext="${editBurim.url_burimi}"/>
             <th:block th:utext="${editBurim.mp3_domain}"/>
-        <p>
+
 
         <hr/>
-
-        <div class="ui active progress">
-            <div class="bar">
-                <div class="progress"></div>
-            </div>
-            <div class="label">Spider is running</div>
-        </div>
-
-
         <div>
             <div id="connect-container">
                 <div>

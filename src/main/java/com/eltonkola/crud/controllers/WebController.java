@@ -1,8 +1,6 @@
 package com.eltonkola.crud.controllers;
 
-import com.eltonkola.crud.RadiozApplication;
 import com.eltonkola.crud.domain.NewsArticle;
-import com.eltonkola.crud.liquidsoap.TelnetClient;
 import com.eltonkola.crud.service.NewsServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.Map;
