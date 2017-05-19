@@ -85,8 +85,8 @@ public class SpiderTask {
                     for (Element page : linksOnPage) {
                         String link = cleanUrl(page.attr("abs:href"));
                         if (link.endsWith(".mp3") || link.endsWith(".MP3") || link.endsWith(".Mp3") || link.endsWith(".mP3")) {
-                            System.out.println("found song:" + link);
                             if (!mSongs.contains(link)) {
+                                System.out.println("found song:" + link);
                                 mSongs.add(link);
                                 updateState(TaskStatus.EVENT_TYPE.FOUND_MP3, link);
                             }
