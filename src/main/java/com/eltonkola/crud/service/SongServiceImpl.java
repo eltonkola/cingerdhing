@@ -3,6 +3,10 @@ package com.eltonkola.crud.service;
 import com.eltonkola.crud.domain.Song;
 import com.eltonkola.crud.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,9 +48,19 @@ public class SongServiceImpl implements SongServiceInterface {
     }
 
     @Override
+    public boolean songExistWithPath(String url) {
+        return  mSongRepository.findBysonghash(url.hashCode()).size() > 0;
+    }
+
+    @Override
     public Collection<Song> getAllSongs() {
         List<Song> allNews = makeList(mSongRepository.findAll());
         return allNews;
+    }
+
+    @Override
+    public int nrTotalSongs() {
+        return (int) mSongRepository.count();
     }
 
 
@@ -57,5 +71,12 @@ public class SongServiceImpl implements SongServiceInterface {
         }
         return list;
     }
+
+    @Override
+    public Page<Song> findAll(Pageable pageable) {
+        return mSongRepository.findAll(pageable);
+    }
+
+
 
 }

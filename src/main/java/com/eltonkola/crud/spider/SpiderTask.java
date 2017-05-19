@@ -7,6 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,10 @@ public class SpiderTask {
     public interface TaskStatusUpdate {
         void onTaskStatus(TaskStatus state);
     }
+
+    @Value("${app_export_folder_path}")
+    private String appExportFolderPath;
+
 
     private Date started_time;
 
@@ -114,7 +119,7 @@ public class SpiderTask {
         Gson gson = new Gson();
         String json = gson.toJson(mSongs);
         try {
-            FileWriter writer = new FileWriter("kenget_" + getBurimiId() + ".json");
+            FileWriter writer = new FileWriter(appExportFolderPath + "/kenget_" + getBurimiId() + ".json");
             writer.write(json);
             writer.close();
         } catch (Exception e) {

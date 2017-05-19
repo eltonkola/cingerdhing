@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 
     <!-- Site Properties -->
-    <title>admin - Kenget</title>
+    <title>admin - Importo Kenget</title>
 
 
     <link rel="stylesheet" type="text/css" th:href="@{/semantic/components/reset.min.css}"/>
@@ -46,10 +46,7 @@
 </head>
 <body>
 
-
-    <div th:replace="admin/fragments/header :: header('songs')"> </div>
-
-
+    <div th:replace="admin/fragments/header :: header('importsongs')"> </div>
 
     <div class="bosh">
     </div>
@@ -58,13 +55,13 @@
 
     <div class="ui container">
 
-        <h2 class="ui dividing header">Kenget ne db</h2>
+        <h2 class="ui dividing header">Importo Kenget</h2>
 
         <div class="example">
             <div class="ui right floated ">
-                List e kengeve - <th:block th:utext="${total_songs}"/>
+                Pasi nje burim ka kerkuar tere kenget ne nje faqe, ato ruhet ne nje file json, qe ne kete vend mund ti shikoni dhe importoni. Importimi do te shtoje kenget ne database.
             </div>
-        </div>S
+        </div>
 
         <div class="ui hidden divider"></div>
         <br/>
@@ -72,64 +69,30 @@
         <div class="column">
             <table class="ui right aligned table">
                 <thead>
-                <tr>
-                    <th class="left aligned">Id</th>
-                    <!--<th>Url</th>-->
-                    <th class="left aligned">Titulli</th>
-                    <th class="left aligned">Artisti</th>
-                    <th>Veprime</th>
+                <tr><th class="left aligned">Emri</th>
+                    <th class="left aligned">Data krijimit</th>
+                    <th class="left aligned">Madhesia</th>
+                    <th class="left aligned">Veprime</th>
                 </tr></thead>
                 <tbody>
 
-                    <tr th:if="${#lists.isEmpty(terekenget)}" class="btn-warning">
-                        <td colspan="4" align="center">Asnje kenge!!!</td>
+                    <tr th:if="${#lists.isEmpty(tereFilet)}" class="btn-warning">
+                        <td colspan="4" align="center">Asnje file per tu importuar!!!</td>
                     </tr>
 
-                    <tr th:each="song : ${terekenget}">
-                        <td class="left aligned" th:text="${song.id}"></td>
-
-                        <!--<td class="left aligned" th:text="${song.urlsong}"></td>-->
-
-                        <td class="left aligned" th:utext="${song.songtitle}"></td>
-                        <td class="left aligned" th:utext="${song.artistname}"></td>S
+                    <tr th:each="filex : ${tereFilet}">
+                        <td class="left aligned" th:text="${filex.name}"></td>
+                        <td class="left aligned" th:text="${filex.createdionDate}"></td>
+                        <td class="left aligned" th:utext="${filex.size}"></td>
                         <td align="center">
-                            <a th:href="@{/admin/songs/delete/{id}(id=${song.id})}">Delete</a>
+                            <a th:href="@{/admin/importsongs/delete/{path}(path=${filex.name})}">Delete</a>
+                            <a th:href="@{/admin/importsongs/import/{path}(path=${filex.name})}">Import</a>
                         </td>
                     </tr>
 
                 </tbody>
             </table>
         </div>
-
-
-        <!-- Pagination Bar -->
-        <div th:fragment='paginationbar'>
-            <div>
-                <ul class='pagination pagination-centered'>
-                    <li th:class="${page.firstPage}?'disabled':''">
-                        <span th:if='${page.firstPage}'>← First</span>
-                        <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>← First</a>
-                    </li>
-                    <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
-                        <span th:if='${not page.hasPreviousPage}'>«</span>
-                        <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}' title='Go to previous page'>«</a>
-                    </li>
-                    <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
-                        <span th:if='${item.current}' th:text='${item.number}'>1</span>
-                        <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span th:text='${item.number}'>1</span></a>
-                    </li>
-                    <li th:class="${page.hasNextPage}? '' : 'disabled'">
-                        <span th:if='${not page.hasNextPage}'>»</span>
-                        <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}' title='Go to next page'>»</a>
-                    </li>
-                    <li th:class="${page.lastPage}? 'disabled' : ''">
-                        <span th:if='${page.lastPage}'>Last →</span>
-                        <a th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
 
 
 

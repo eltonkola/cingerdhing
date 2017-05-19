@@ -2,8 +2,10 @@ package com.eltonkola.crud.config;
 
 import com.eltonkola.crud.domain.Burim;
 import com.eltonkola.crud.domain.Role;
+import com.eltonkola.crud.domain.Song;
 import com.eltonkola.crud.domain.User;
 import com.eltonkola.crud.repository.BurimRepository;
+import com.eltonkola.crud.repository.SongRepository;
 import com.eltonkola.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,14 +20,26 @@ public class InitialDataLoader {
 
     private UserRepository mUserRepository;
     private BurimRepository mBurimRepository;
+    private SongRepository mSongRepository;
 
     @Autowired
-    public InitialDataLoader(UserRepository userRepository, BurimRepository burimRepository) {
+    public InitialDataLoader(UserRepository userRepository, BurimRepository burimRepository, SongRepository songRepository) {
         this.mUserRepository = userRepository;
         mBurimRepository = burimRepository;
+        mSongRepository = songRepository;
 
         loadDefaultUsers();
         loadDefaultBurimet();
+
+        loadDefaultSongs();
+    }
+
+    private void loadDefaultSongs() {
+
+        for(int i = 0; i<120; i++){
+            mSongRepository.save(new Song("http://eltonkola.com/poni - dale dale " + i + ".mp3"));
+        }
+
     }
 
     private void loadDefaultBurimet(){
