@@ -17,5 +17,7 @@ public interface SongServiceInterface {
 
     public int nrTotalSongs();
 
+    public void deleteAllSongs();
+
     Page<Song> findAll(Pageable pageable);
 }

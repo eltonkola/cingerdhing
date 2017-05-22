@@ -63,6 +63,11 @@ public class SongServiceImpl implements SongServiceInterface {
         return (int) mSongRepository.count();
     }
 
+    @Override
+    public void deleteAllSongs() {
+        mSongRepository.deleteAll();
+    }
+
 
     public static List<Song> makeList(Iterable<Song> iter) {
         List<Song> list = new ArrayList<>();

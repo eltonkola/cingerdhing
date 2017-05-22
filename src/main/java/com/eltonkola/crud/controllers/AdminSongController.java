@@ -41,13 +41,26 @@ public class AdminSongController {
         model.addAttribute("page", page);
         model.addAttribute("total_songs", mSongServiceInterface.nrTotalSongs());
 
-
         return "admin/songs";
+
     }
 
-    @RequestMapping(value = "/admin/songs/{operation}/{songId}", method = RequestMethod.GET)
+
+
+
+
+    @RequestMapping(value = "/admin/songs/deleteall", method = RequestMethod.GET)
+    public String deleteall(Model model) {
+        mSongServiceInterface.deleteAllSongs();
+        return "redirect:/admin/songs";
+    }
+
+
+    @RequestMapping(value = "/admin/songs/{operation}/{songId}/{page}/{size}", method = RequestMethod.GET)
     public String editDeleteSong(@PathVariable("operation") String operation,
                                         @PathVariable("songId") Long songId,
+                                        @PathVariable("page") Long page,
+                                        @PathVariable("size") Long size,
                                         final RedirectAttributes redirectAttributes,
                                         Model model) {
         if(operation.equals("delete")) {
@@ -57,7 +70,7 @@ public class AdminSongController {
                 redirectAttributes.addFlashAttribute("deletion", "unsuccess");
             }
         }
-        return "redirect:/admin/songs";
+        return "redirect:/admin/songs?page=" + page + "&size=" + size;
     }
 
 

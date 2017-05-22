@@ -63,13 +63,11 @@
         <div class="example">
             <div class="ui right floated ">
                 List e kengeve - <th:block th:utext="${total_songs}"/>
+                <a th:if="${#lists.size(terekenget) > 0}" class="red ui right floated button" href="/admin/songs/deleteall">Fshij tere kenget!</a>
             </div>
-        </div>S
+        </div>
 
-        <div class="ui hidden divider"></div>
-        <br/>
 
-        <div class="column">
             <table class="ui right aligned table">
                 <thead>
                 <tr>
@@ -87,50 +85,54 @@
 
                     <tr th:each="song : ${terekenget}">
                         <td class="left aligned" th:text="${song.id}"></td>
-
-                        <!--<td class="left aligned" th:text="${song.urlsong}"></td>-->
-
                         <td class="left aligned" th:utext="${song.songtitle}"></td>
-                        <td class="left aligned" th:utext="${song.artistname}"></td>S
+                        <td class="left aligned" th:utext="${song.artistname}"></td>
                         <td align="center">
-                            <a th:href="@{/admin/songs/delete/{id}(id=${song.id})}">Delete</a>
+                            <a th:href="@{/admin/songs/delete/{id}/{page}/{size}(id=${song.id}, page=${page.number -1},size=${page.size})}">Delete</a>
                         </td>
                     </tr>
 
+
+                <tfoot th:if="${#lists.size(terekenget) > 0}">
+                <tr><th colspan="4">
+                    <div class="ui right floated pagination menu">
+
+
+                        <a class="icon item" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>
+                            <i class="angle double left icon"></i>
+                        </a>
+
+
+
+                        <a class="icon item" th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}' title='Go to previous page'>
+                            <i class="left chevron icon"></i>
+                        </a>
+
+
+
+                        <a  th:each='item : ${page.items}'
+                            th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'
+                            class="item" th:text='${item.number}'
+                            th:class="${item.current}? 'item primary ui button' : 'item'"
+                            />
+
+                        <a class="icon item" th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}' title='Go to next page'>
+                            <i class="right chevron icon"></i>
+                        </a>
+
+
+                        <a class="icon item" th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>
+                            <i class="angle double right icon"></i>
+                        </a>
+
+
+                    </div>
+                </th>
+                </tr></tfoot>
+
+
                 </tbody>
             </table>
-        </div>
-
-
-        <!-- Pagination Bar -->
-        <div th:fragment='paginationbar'>
-            <div>
-                <ul class='pagination pagination-centered'>
-                    <li th:class="${page.firstPage}?'disabled':''">
-                        <span th:if='${page.firstPage}'>← First</span>
-                        <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>← First</a>
-                    </li>
-                    <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
-                        <span th:if='${not page.hasPreviousPage}'>«</span>
-                        <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}' title='Go to previous page'>«</a>
-                    </li>
-                    <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
-                        <span th:if='${item.current}' th:text='${item.number}'>1</span>
-                        <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span th:text='${item.number}'>1</span></a>
-                    </li>
-                    <li th:class="${page.hasNextPage}? '' : 'disabled'">
-                        <span th:if='${not page.hasNextPage}'>»</span>
-                        <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}' title='Go to next page'>»</a>
-                    </li>
-                    <li th:class="${page.lastPage}? 'disabled' : ''">
-                        <span th:if='${page.lastPage}'>Last →</span>
-                        <a th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
 
 
     </div>
