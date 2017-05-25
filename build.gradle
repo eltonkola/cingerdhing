@@ -68,6 +68,7 @@ dependencies {
 
     //le te eprdorim nje db mbi file h2 per tani, me vone mudn te perdorim nje db tjeter si mysql
     compile('com.h2database:h2')
+    compile 'mysql:mysql-connector-java'
     //runtime('com.h2database:h2')
     //compile("org.hsqldb:hsqldb")
 

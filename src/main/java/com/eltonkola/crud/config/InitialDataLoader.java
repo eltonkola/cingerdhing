@@ -31,7 +31,7 @@ public class InitialDataLoader {
         loadDefaultUsers();
         loadDefaultBurimet();
 
-        loadDefaultSongs();
+//        loadDefaultSongs();
     }
 
     private void loadDefaultSongs() {
