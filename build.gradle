@@ -51,6 +51,7 @@ repositories {
     }
 }
 
+
 dependencies {
 
     //pjesa web
@@ -69,6 +70,7 @@ dependencies {
     //le te eprdorim nje db mbi file h2 per tani, me vone mudn te perdorim nje db tjeter si mysql
     compile('com.h2database:h2')
     compile 'mysql:mysql-connector-java'
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     //runtime('com.h2database:h2')
     //compile("org.hsqldb:hsqldb")
 
@@ -87,12 +89,14 @@ dependencies {
     //gson parsing
     compile 'com.google.code.gson:gson:2.8.0'
 
+
+    compile 'org.tensorflow:tensorflow:1.1.0'
+
     //testing
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile 'junit:junit:4.12'
 
 }
-
 
 
 task buildDocker(type: Docker, dependsOn: build) {
