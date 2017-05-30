@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface SongServiceInterface {
 
@@ -20,4 +21,7 @@ public interface SongServiceInterface {
     public void deleteAllSongs();
 
     Page<Song> findAll(Pageable pageable);
+
+    List<Song> getRandom100();
+    List<Song> kerko(String query);
 }

@@ -1,9 +1,15 @@
 package com.eltonkola.crud.domain;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "arkivi_mp3", indexes = {@Index(name = "song_index", columnList = "id, songhash")})
+@Table(name = "arkivi_mp3",
+        indexes = {@Index(name = "song_index", columnList = "id, songhash")
+        })
+//@Document(indexName = "emri_full", type="song", shards=1)
 public class Song {
 
 
@@ -24,6 +30,9 @@ public class Song {
     @Column(name = "songhash", nullable = false)
     private int songhash;
 
+    @Column(name = "emri_full", nullable = true)
+    private String emri_full;
+
 
     public Song() {}
 
@@ -33,13 +42,17 @@ public class Song {
         String tmp = url.substring(url.lastIndexOf("/", url.lastIndexOf(".")));
         if(tmp !=null) {
 
+            emri_full = pastro(tmp);
+
+
             String[] vals = tmp.split("-");
             if (vals.length > 0) {
-                artistname = vals[0];
+                artistname = pastro(vals[0]);
             }
 
             if (vals.length > 1) {
-                songtitle = vals[1];
+                songtitle = pastro(vals[1]);
+
             }
 
         }
@@ -48,10 +61,20 @@ public class Song {
 
     }
 
+    private String pastro(String input){
+        String result = input;
+        result = result.replaceAll("%20", " ");
+        result = result.replaceAll(".MP3", "");
+        result = result.replaceAll(".mp3", "");
+        return result;
+    }
+
+
     public Song(String url_song, String song_title, String artist_name) {
         this.urlsong = url_song;
         this.songtitle = song_title;
         this.artistname=artist_name;
+        emri_full = songtitle + " " + artistname;
         this.songhash = urlsong.hashCode();
     }
 
@@ -62,6 +85,13 @@ public class Song {
                 id, urlsong, songtitle);
     }
 
+    public String getEmri_full() {
+        return emri_full;
+    }
+
+    public void setEmri_full(String emri_full) {
+        this.emri_full = emri_full;
+    }
 
     public Long getId() {
         return id;

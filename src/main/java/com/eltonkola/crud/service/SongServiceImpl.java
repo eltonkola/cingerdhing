@@ -2,17 +2,18 @@ package com.eltonkola.crud.service;
 
 import com.eltonkola.crud.domain.Song;
 import com.eltonkola.crud.repository.SongRepository;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -82,6 +83,33 @@ public class SongServiceImpl implements SongServiceInterface {
         return mSongRepository.findAll(pageable);
     }
 
+    @Override
+    public List<Song> getRandom100() {
+
+        List<Song> allSongs = makeList(mSongRepository.findAll());
+
+        long seed = System.nanoTime();
+        Collections.shuffle(allSongs, new Random(seed));
+
+        return allSongs.subList(0, 100 > allSongs.size() ? allSongs.size() : 100);
+    }
+
+    @Override
+    public List<Song> kerko(String query) {
+
+//        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//                .withQuery(QueryBuilders.queryStringQuery(query).field("emri_full"))
+//                .build();
+//        Page<Song> sonResult = mSongRepository.search(searchQuery);
+//
+//
+//        return sonResult.getContent();
+
+        return mSongRepository.kerko(query);
+
+       // return getRandom100();
+
+    }
 
 
 }

@@ -67,11 +67,14 @@ dependencies {
     //jpa per te dehnat
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    compile("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+
     //le te eprdorim nje db mbi file h2 per tani, me vone mudn te perdorim nje db tjeter si mysql
     compile('com.h2database:h2')
     compile 'mysql:mysql-connector-java'
-    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-    //runtime('com.h2database:h2')
+    //compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    runtime('com.h2database:h2')
     //compile("org.hsqldb:hsqldb")
 
     //hot deploy nderkohe qe punojme
@@ -92,8 +95,12 @@ dependencies {
 
     compile 'org.tensorflow:tensorflow:1.1.0'
 
+    //kerkimi
+    compile 'net.java.dev.jna:jna:4.1.0'
+
     //testing
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
     testCompile 'junit:junit:4.12'
 
 }

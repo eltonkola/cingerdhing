@@ -1,7 +1,9 @@
 package com.eltonkola.crud.controllers;
 
 import com.eltonkola.crud.domain.NewsArticle;
+import com.eltonkola.crud.domain.Song;
 import com.eltonkola.crud.service.NewsServiceInterface;
+import com.eltonkola.crud.service.SongServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,8 +34,32 @@ public class WebController {
     @Autowired
     NewsServiceInterface mNewsService;
 
+    @Autowired
+    SongServiceInterface mSongServiceInterface;
+
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(@RequestParam(value = "q", required = false) String q, Model model) {
+
+        if(q == null){
+            model.addAttribute("title", "100 kenge te cfardoshme");
+            model.addAttribute("random100", mSongServiceInterface.getRandom100());
+        }else{
+            List<Song> resulKerkimi = mSongServiceInterface.kerko(q);
+            if(resulKerkimi.size()>0){
+                model.addAttribute("title", "kenget e gjetura per kerkmin:" + q);
+            }else{
+                model.addAttribute("title", "Nuk u gjet asgje per:" + q);
+            }
+
+            model.addAttribute("random100", resulKerkimi);
+        }
+
+
+        return "public/index";
+    }
+
+    @GetMapping("/blog")
+    public String blog(Model model) {
         model.addAttribute("allNews", mNewsService.getAllArticles());
         return "public/blog";
     }

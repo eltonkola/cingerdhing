@@ -8,10 +8,11 @@
 
             <a  th:href="@{/}" class="header item">
                 <img class="logo" th:src="@{/images/logo.png}"/>
-                crud demo
+                Cingerdhing
             </a>
 
             <a class="active item" th:href="@{/}" >Home</a>
+            <a class="active item" th:href="@{/blog}" >Blog</a>
             <a class="item" th:href="@{/about}" >About</a>
             <div class="right item">
                 <a class="item" th:href="@{/admin}" th:if="${#authorization.expression('isAuthenticated()')}">Admin</a>
@@ -28,9 +29,7 @@
     <div class="ui vertical inverted sidebar menu">
         <a class="active item" th:href="@{/}" >Home</a>
         <a class="item" th:href="@{/blog}" >Blog</a>
-        <a class="item" th:href="@{/programm}" >Programm</a>
         <a class="item" th:href="@{/about}" >About</a>
-        <a class="item" th:href="@{/contact}" >Contact</a>
     </div>
 
 

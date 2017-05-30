@@ -34,13 +34,13 @@ public class InitialDataLoader {
 //        loadDefaultSongs();
     }
 
-    private void loadDefaultSongs() {
-
-        for(int i = 0; i<120; i++){
-            mSongRepository.save(new Song("http://eltonkola.com/poni - dale dale " + i + ".mp3"));
-        }
-
-    }
+//    private void loadDefaultSongs() {
+//
+//        for(int i = 0; i<120; i++){
+//            mSongRepository.save(new Song("http://eltonkola.com/poni - dale dale " + i + ".mp3"));
+//        }
+//
+//    }
 
     private void loadDefaultBurimet(){
         if(mBurimRepository.findByTitle("shkariko.im").size() == 0){
