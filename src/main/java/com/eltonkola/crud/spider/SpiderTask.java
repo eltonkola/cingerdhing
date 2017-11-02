@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -95,7 +96,7 @@ public class SpiderTask {
                                 mSongs.add(link);
                                 updateState(TaskStatus.EVENT_TYPE.FOUND_MP3, link);
                             }
-                        } else if (link.contains(mBurim.getMp3_domain()) || link.contains(mBurim.getUrl_burimi())) {
+                        } else if ( link.contains(mBurim.getMp3_domain()) || ( link.contains(mBurim.getUrl_burimi())  )) { //&& link.contains("2017")
                             getPageLinks(cleanUrl(link), false);
                         }
                     }
@@ -118,8 +119,19 @@ public class SpiderTask {
 
         Gson gson = new Gson();
         String json = gson.toJson(mSongs);
+
+        if(appExportFolderPath == null){
+            appExportFolderPath = "/home/elton/Music";
+        }
+
+        File dir = new File(appExportFolderPath);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+
         try {
-            FileWriter writer = new FileWriter(appExportFolderPath + "/kenget_" + getBurimiId() + ".json");
+            File f = new File(appExportFolderPath + "/kenget_" + getBurimiId() + ".json");
+            FileWriter writer = new FileWriter(f);
             writer.write(json);
             writer.close();
         } catch (Exception e) {
@@ -173,8 +185,8 @@ public class SpiderTask {
     //for local testing only
     public static void main(String[] args) {
         //1. Pick a URL from the frontier
-        Burim bur = new Burim("shkarko.im", "http://www.shkarko.im", "http://shkarko.muzikpapare.com");
-
+        Burim bur = new Burim("shkarko.im", "http://www.shkarko.im/", "http://shkarko.muzikpapare.com");
+        bur.setId(007l);
         new SpiderTask(bur, null).start();
     }
 
