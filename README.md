@@ -1,10 +1,7 @@
 # cingerdhing
-web app mbi spring boot qe bon gjona
-
-
+ky ehste nje spider qe kerkon mp3 files ne faqe te ndryshme qe mund te konfigurosh online, e me pas perdor si librari
 
 docker run  -e "SPRING_PROFILES_ACTIVE=prod" -p 9000:8080 -t eltonkola/cingerdhing-docker:0.0.1-SNAPSHOT
-
 
 -e "SPRING_PROFILES_ACTIVE=dev"
 
@@ -12,9 +9,9 @@ docker run  -e "SPRING_PROFILES_ACTIVE=prod" -p 9000:8080 -t eltonkola/cingerdhi
 $ docker run -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -p 8080:8080 -p 5005:5005 -t springio/gs-spring-boot-docker
 
 
-#openshoft
+#openshift - eksperimental, akoma nuk punon
 
-ne openshift duhetn kaluar disa parametra, nese perdoret redhat-openjdk18-openshift
+ne openshift duhet kaluar disa parametra, nese perdoret redhat-openjdk18-openshift
 
 $ oc env bc/openshift-quickstarts \
 -e JAVA_MAIN_CLASS=org.openshift.quickstarts.undertow.servlet.ServletServer \
