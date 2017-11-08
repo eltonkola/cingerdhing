@@ -1,139 +1,53 @@
 buildscript {
-    ext {
-        springBootVersion = '1.5.2.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-
-        classpath('se.transmode.gradle:gradle-docker:1.2')
-    }
+	ext {
+		kotlinVersion = '1.1.51'
+		springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+	}
 }
 
-group = 'eltonkola'
-
-
-
-
-apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
-apply plugin: 'docker'
+apply plugin: 'io.spring.dependency-management'
 
-//version = '0.0.1-SNAPSHOT'
-version = 'latest'
-
+group = 'com.eltonkola'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
-
-jar {
-    baseName = 'cingerdhing-docker'
-    version = '0.1.0'
+compileKotlin {
+	kotlinOptions.jvmTarget = "1.8"
 }
-
-tasks.withType(Jar) {
-    destinationDir = file("$rootDir/deployments")
+compileTestKotlin {
+	kotlinOptions.jvmTarget = "1.8"
 }
 
 repositories {
-    mavenCentral()
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
 }
 
-
-
-repositories {
-    jcenter()
-    mavenLocal()
-    maven {
-        name "oracleReleases"
-        url "http://download.oracle.com/maven"
-    }
-
-    maven {
-        name "vaadin-addons"
-        url "http://maven.vaadin.com/vaadin-addons"
-    }
-
-}
-
-
-ext {
-    vaadinVersion = '8.0.5'
-}
 
 dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-web')
 
-    //pjesa web
-    compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.postgresql:postgresql:9.4.1212')
 
-    //siguri per panelin e admin
-    compile('org.springframework.boot:spring-boot-starter-security')
-
-    //template engine per html
-    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
-
-    //jpa per te dehnat
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-
-    compile("org.springframework.boot:spring-boot-starter-data-elasticsearch")
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
-
-    //le te eprdorim nje db mbi file h2 per tani, me vone mudn te perdorim nje db tjeter si mysql
-    compile('com.h2database:h2')
-    compile 'mysql:mysql-connector-java'
-    //compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-    runtime('com.h2database:h2')
-    //compile("org.hsqldb:hsqldb")
-
-    //hot deploy nderkohe qe punojme
-    compile 'org.springframework.boot:spring-boot-devtools'
-
-    //sprig batch per veprima te gjata (si skanimi i nje faqeje)
-    //compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
-    compile("org.springframework.boot:spring-boot-starter-batch")
-
-    //wekcosket we ui te flase me vemprimet e spider
-    compile("org.springframework.boot:spring-boot-starter-websocket")
-
-    //html parisng, for the spider
-    compile 'org.jsoup:jsoup:1.10.2'
-    //gson parsing
-    compile 'com.google.code.gson:gson:2.8.0'
-
-
-    compile 'org.tensorflow:tensorflow:1.1.0'
-
-    //kerkimi
-    compile 'net.java.dev.jna:jna:4.1.0'
-
-    //vadin
-    compile('com.vaadin:vaadin-spring-boot-starter')
-    compile 'org.vaadin.addons:mediaelementjs-player:1.3.3'
-
-
-    //testing
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-
-    testCompile 'junit:junit:4.12'
-
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
-    }
-}
-
-task buildDocker(type: Docker, dependsOn: build) {
-    push = false
-    applicationName = jar.baseName
-    dockerfile = file('src/main/docker/Dockerfile')
-    doFirst {
-        copy {
-            from jar
-            into stageDir
-        }
-    }
+	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8")
+	compile("org.jetbrains.kotlin:kotlin-reflect")
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.security:spring-security-test')
 }
