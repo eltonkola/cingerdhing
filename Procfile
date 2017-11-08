@@ -1,1 +1,1 @@
-web: java -jar target/cingerdhing-0.0.1-SNAPSHOT.jar
+web: java -jar build/libs/cingerdhing-0.0.1-SNAPSHOT.jar
