@@ -19,7 +19,14 @@
 ### NetBeans ###
 nbproject/private/
 build/
+out/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+out/test/
+src/main/java/
+src/main/resources/static/
+src/main/resources/templates/
+src/test/java/
+src/test/resources/
