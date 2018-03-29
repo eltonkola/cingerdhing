@@ -1,0 +1,10 @@
+config_mount_name = "config_mount_name_value"
+config_icecast_host = "config_icecast_host_value"
+config_icecast_port = config_icecast_port_value
+config_icecast_password = "config_icecast_password_value"
+config_error_msg = "config_error_msg_value"
+config_telnet_enable = config_telnet_enable_value
+config_telnet_port = config_telnet_port_value
+config_rotate_jingle = config_rotate_jingle_value
+config_rotate_song = config_rotate_song_value
+config_default_meta = "config_default_meta_value"
