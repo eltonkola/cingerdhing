@@ -31,3 +31,4 @@ src/main/resources/templates/
 src/test/java/
 src/test/resources/
 docker/radio_media/songs/
+docker/cingerdhing.jar
