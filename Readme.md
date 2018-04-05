@@ -18,10 +18,6 @@ docker run -d \
     -e config_default_meta="Simple Stupid Web Radio" \
     --name="cingerdhing-radio" -p 9001:8080 -p 8000:8000 cingerdhing
 
-
-
-
-
 Delete all containers
 
 docker rm $(docker ps -a -q)

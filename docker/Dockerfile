@@ -49,7 +49,7 @@ ENV JAVA_OPTS=""
 # ----------------------------------------------------------------------------
 RUN apt-get install icecast2 sudo -y
 COPY icecast2 /etc/default/icecast2
-COPY icecast.xml /usr/share/icecast/icecast.xml
+COPY icecast.xml /usr/share/icecast2/icecast.xml
 
 
 # ----------------------------------------------------------------------------
